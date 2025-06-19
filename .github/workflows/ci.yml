@@ -1,4 +1,4 @@
-name: CI - Test & Build
+name: CI - Backend Test & Build
 
 on:
   push:
@@ -10,9 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: backend
+
     services:
       postgres:
-        image: postgres:15
+        image: postgres
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -30,6 +34,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
