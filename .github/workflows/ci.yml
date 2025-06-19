@@ -43,4 +43,4 @@ jobs:
       - run: npx prisma generate
       - run: npx prisma migrate dev --name init --skip-seed
       - run: npm run build
-      #- run: npm run test
+      - run: npm run test
