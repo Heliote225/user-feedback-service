@@ -1,5 +1,5 @@
 import {
-  Controller, Post, Body, Get, Query, Delete, Param
+  Controller, Post, Body, Get, Query, Delete,
 } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
@@ -17,11 +17,6 @@ export class FeedbackController {
   @Get()
   findAll(@Query() query: any) {
     return this.feedbackService.findAll(query);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.feedbackService.findOne(+id);
   }
 
   @Delete()

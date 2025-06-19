@@ -34,10 +34,6 @@ export class FeedbackService {
     });
   }
 
-  findOne(id: number) {
-    return this.prisma.feedback.findUnique({ where: { id } });
-  }
-
   deleteMany({ ids }: DeleteFeedbackDto) {
     return this.prisma.feedback.deleteMany({
       where: {
