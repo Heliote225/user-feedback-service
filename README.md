@@ -5,34 +5,36 @@
 
 ---
 
-## 🚀 Fonctionnalités
+## Fonctionnalités
 
 - ✅ CRUD sur les produits
 - ✅ Création de feedbacks (note + commentaire)
 - ✅ Lecture des feedbacks avec pagination, tri, filtres
 - ✅ Suppression multiple de feedbacks
 - ✅ Base de données relationnelle PostgreSQL (via Prisma ORM)
-- ✅ Documentation Swagger à `/api`
+- ✅ Interface graphique Swagger à `/api` pour tester l'API
 
 ---
 
-## 🛠️ Stack technique
+## Stack technique
 
 - [NestJS](https://nestjs.com/)
 - [Prisma](https://www.prisma.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Swagger](https://swagger.io/)
 - [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/) (optionnel)
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### 1. Cloner le projet
 
 ```bash
 git clone https://github.com/votre-nom/user-feedback-service.git
 cd user-feedback-service
+cd backend
 
 ```
 ### 2. Installer les dépendances
@@ -41,7 +43,21 @@ cd user-feedback-service
 npm install
 ```
 ### 3. Configurer la base de données
-Créer une base PostgreSQL nommée feedback_db localement, puis configure le fichier `.env` :
+Vous avez le choix entre utiliser une base de données PostgreSQL locale ou Docker.
+
+**Avec Docker**:
+```bash
+docker-compose up -d
+```
+avec le fichier `docker-compose.yml` fourni, qui configure PostgreSQL avec les identifiants par défaut.
+
+**Avec PostgreSQL localement**:
+
+Pour configurer une base de données PostgreSQL localement, vous devez d'abord installer PostgreSQL sur votre machine. Ensuite, créez une base de données nommée `feedback_db` et un utilisateur avec les identifiants suivants :
+- Nom d'utilisateur : `postgres`
+- Mot de passe : `postgres`
+
+Puis créer un fichier `.env` à la racine du projet et ajoutez la configuration de la base de données :
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/feedback_db?schema=public"
@@ -57,21 +73,26 @@ npx prisma migrate dev --name init
 ```bash
 npx prisma generate
 ```
+### 6. Lancer les tests unitaires
+```bash
+npm run test
+```
+
 ### 6. Démarrer le serveur
 
 ```bash
 npm run start:dev
 ```
-### 8. Tester l'API
+## Tester l'API
 Vous pouvez tester l'API en utilisant Postman ou tout autre outil de test d'API, ou directement via Swagger.
 
 Pour Postman : [http://localhost:3000](http://localhost:3000)
 
 Pour Swagger : [http://localhost:3000/api](http://localhost:3000/api)
-### 7. Accéder à l'API via Swagger
+### 1. Accéder à l'API via Swagger
 Ouvrir votre navigateur et aller sur [http://localhost:3000/api](http://localhost:3000/api) pour accéder à l'interface de test de Swagger.
 
-#### Exemples de requêtes
+### 2. Exemples de requêtes
 - **Créer un produit** : 
 ```http
 POST /product
@@ -117,7 +138,7 @@ ou
 GET /feedback?product_id=1&rating=5
 ```
 
-### 8. Liste des routes disponibles
+### 3. Liste des routes disponibles
 | Méthode | Route                | Description                          |
 |---------|----------------------|--------------------------------------|
 | POST    | /product             | Créer un nouveau produit             |
@@ -133,10 +154,11 @@ GET /feedback?product_id=1&rating=5
 | DELETE  | /feedback/:id        | Supprimer un feedback par ID           |
 ---
 
-### 9. Structure du projet
+## Structure du backend
+Voici la structure du projet backend :
 
 ``` plaintext
-user-feedback-service/
+backend/
 ├── src/
 │   ├── feedback/
 │   │   ├── dto/          # Data Transfer Objects pour les feedbacks
@@ -161,54 +183,9 @@ user-feedback-service/
 ```
 ---
 
-### 10. Ajouter Docker
-Pour exécuter le service avec Docker, créez un fichier `Dockerfile` à la racine du projet :
-
-```dockerfile
-# Dockerfile
-FROM node:18
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npx prisma generate
-EXPOSE 3000
-CMD ["npm", "run", "start:dev"]
-```
-Ensuite, créez un fichier `docker-compose.yml` pour configurer PostgreSQL :
-
-```yaml
-# docker-compose.yml
-version: '3.8'
-services:
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: feedback_db
-    ports:
-      - "5432:5432"
-  
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/feedback_db?schema=public"
-```
-### 11. Lancer Docker
-Pour lancer l'application avec Docker, exécutez la commande suivante dans le terminal :
-
-```bash
-docker-compose up --build
-```
-
-### License
+## License
 Ce projet est sous licence MIT. Consultez le fichier [LICENSE](LICENSE) pour plus de détails.
-### Contribuer
+## Contribuer
 Si vous souhaitez contribuer à ce projet, n'hésitez pas à ouvrir une issue ou une pull request. Toute contribution est la bienvenue !
-### Auteurs
+## Auteurs
 - [Heliote ZAOULY](https://www.linkedin.com/in/heliote-zaouly)
