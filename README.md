@@ -1,4 +1,5 @@
 # 🗣️ User Feedback Service
+![CI](https://github.com/Heliote225/user-feedback-service/actions/workflows/ci.yml/badge.svg)
 
 > API REST NestJS pour collecter, consulter et gérer des avis utilisateurs associés à des produits, avec Prisma et PostgreSQL.
 
