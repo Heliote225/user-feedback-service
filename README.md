@@ -78,7 +78,7 @@ npx prisma generate
 npm run test
 ```
 
-### 6. Démarrer le serveur
+### 7. Démarrer le serveur
 
 ```bash
 npm run start:dev
@@ -120,14 +120,9 @@ Content-Type: application/json
 ```http
 GET /feedback
 ```
-- **Supprimer des feedbacks** : 
+- **Supprimer un feedback** : 
 ```http
-DELETE /feedback
-Content-Type: application/json
-
-{
-  "ids": [1, 2, 3]
-}
+DELETE /feedback/1
 ```
 - **Filtrer les feedbacks** : 
 ```http
@@ -139,19 +134,17 @@ GET /feedback?product_id=1&rating=5
 ```
 
 ### 3. Liste des routes disponibles
-| Méthode | Route                | Description                          |
-|---------|----------------------|--------------------------------------|
-| POST    | /product             | Créer un nouveau produit             |
+| Méthode | Route                | Description                           |
+|---------|----------------------|---------------------------------------|
+| POST    | /product             | Créer un nouveau produit              |
 | GET     | /product             | Lire tous les produits                |
 | GET     | /product/:id         | Lire un produit par ID                |
 | PUT     | /product/:id         | Mettre à jour un produit par ID       |
-| DELETE  | /product             | Supprimer plusieurs produits          |
 | DELETE  | /product/:id         | Supprimer un produit par ID           |
 | POST    | /feedback            | Créer un nouveau feedback             |
 | GET     | /feedback            | Lire tous les feedbacks               |
 | GET     | /feedback/:id        | Lire un feedback par ID               |
-| DELETE  | /feedback            | Supprimer plusieurs feedbacks         |
-| DELETE  | /feedback/:id        | Supprimer un feedback par ID           |
+| DELETE  | /feedback/:id        | Supprimer un feedback par ID          |
 ---
 
 ## Structure du backend
