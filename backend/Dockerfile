@@ -1,6 +1,5 @@
-# Étape 1 : builder
+# Étape 1 : build
 FROM node:20-alpine AS builder
-
 WORKDIR /app
 
 COPY package*.json ./
@@ -8,21 +7,23 @@ RUN npm install
 
 COPY . .
 
-# GÉNÉRATION DU CLIENT PRISMA AVANT BUILD
 RUN npx prisma generate
 RUN npm run build
 
-# Étape 2 : image finale
+# Étape 2 : exécution
 FROM node:20-alpine
-
 WORKDIR /app
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Prisma client généré doit être copié aussi
+# Nécessaire pour Prisma Client
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-CMD ["node", "dist/main"]
+ENV NODE_ENV production
+
+# 👇 Applique la migration automatiquement en prod
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main"]
